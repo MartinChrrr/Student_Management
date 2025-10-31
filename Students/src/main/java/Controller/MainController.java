@@ -1,10 +1,10 @@
 package Controller;
 
 
-import DAO.NotesDAO;
+import DAO.GradeDAO;
 import DAO.StudentDAO;
 import DAO.UserDAO;
-import Models.Note;
+import Models.Grade;
 import Models.Student;
 import Models.User;
 import View.LoginFrame;
@@ -22,9 +22,9 @@ public class MainController {
 
     private StudentDAO studentDAO;
     private UserDAO userDAO;
-    private NotesDAO notesDAO;
+    private GradeDAO gradeDAO;
     private StudentController studentController;
-    private NoteController noteController;
+    private GradeController gradeController;
     private LoginFrame loginFrame;
     private MainFrame mainFrame;
 
@@ -34,14 +34,14 @@ public class MainController {
         // Dao Creation
         studentDAO = new StudentDAO();
         userDAO = new UserDAO();
-        notesDAO = new NotesDAO();
+        gradeDAO = new GradeDAO();
         studentController = new StudentController(studentDAO);
-        noteController = new NoteController(notesDAO);
+        gradeController = new GradeController(gradeDAO);
 
         try {
             studentDAO.loadFromFile();
             userDAO.loadFromFile();
-            notesDAO.loadFromFile();
+            gradeDAO.loadFromFile();
         } catch (IOException e) {
             JOptionPane.showMessageDialog(null, "Erreur lors du chargement des données : " + e.getMessage());
         }
@@ -113,7 +113,9 @@ public class MainController {
 
             //save in .txt
             studentController.removeStudent(selectedId);
+            gradeController.removeGradeFromStudent(selectedId);
             saveStudents();
+            saveNotes();
             refreshStudentList();
         });
 
@@ -136,9 +138,9 @@ public class MainController {
                 JOptionPane.showMessageDialog(mainFrame, "Veuillez mettre une note.");
                 return;
             }
-            int newId = noteController.getNewId();
-            Note newNote = new Note(newId, selectedId, Double.parseDouble(note));
-            noteController.addNote(newNote);
+            int newId = gradeController.getNewId();
+            Grade newGrade = new Grade(newId, selectedId, Double.parseDouble(note));
+            gradeController.addGrade(newGrade);
             saveNotes();
             refreshStudentList();
         });
@@ -149,11 +151,11 @@ public class MainController {
 
     private void refreshStudentList() {
         List<Student> students = studentController.getAllStudents();
-        List<Note> notes = noteController.getAllNotes();
-        for(int i = 0; i < notes.size(); i++) {
-            int studentID =notes.get(i).getStudentID();
+        List<Grade> grades = gradeController.getAllNotes();
+        for(int i = 0; i < grades.size(); i++) {
+            int studentID = grades.get(i).getStudentID();
             Student student = studentDAO.getById(studentID);
-            student.addNote(notes.get(i));
+            student.addNote(grades.get(i));
         }
         //debug
         //System.out.println(students.get(0).getEmail());
@@ -173,7 +175,7 @@ public class MainController {
 
     private void saveNotes() {
         try {
-            notesDAO.saveToFile();
+            gradeDAO.saveToFile();
         } catch (IOException e) {
             JOptionPane.showMessageDialog(mainFrame, "Erreur lors de la sauvegarde : " + e.getMessage());
         }

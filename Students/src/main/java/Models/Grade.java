@@ -1,14 +1,14 @@
 package Models;
 
-public class Note {
+public class Grade {
     int id;
     private int studentID;
     private double value;
 
-    public Note() {
+    public Grade() {
     }
 
-    public Note(int id ,int studentID, double value) {
+    public Grade(int id , int studentID, double value) {
         this.id = id;
         this.studentID = studentID;
         this.value = value;

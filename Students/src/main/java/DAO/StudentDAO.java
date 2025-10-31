@@ -1,6 +1,5 @@
 package DAO;
 
-import Models.Note;
 import Models.Student;
 
 import java.io.*;
@@ -54,7 +53,7 @@ public class StudentDAO {
         }
         nextId = setNextId();
         //debug
-        System.out.println("students next id:  " + nextId);
+        //System.out.println("students next id:  " + nextId);
     }
 
     // //generation id part

@@ -7,7 +7,7 @@ public class Student {
     private int id;
     private String name;
     private String email;
-    private List<Note> notes = new ArrayList<>();
+    private List<Grade> grades = new ArrayList<>();
 
     public Student() {
     }
@@ -44,29 +44,29 @@ public class Student {
         this.email = email;
     }
 
-    public List<Note> getNotes() {
-        return notes;
+    public List<Grade> getNotes() {
+        return grades;
     }
 
-    public void setNotes(List<Note> notes) {
-        this.notes = notes;
+    public void setNotes(List<Grade> grades) {
+        this.grades = grades;
     }
 
-    public void addNote(Note note) {
-        notes.add(note);
+    public void addNote(Grade grade) {
+        grades.add(grade);
     }
 
-    public void removeNote(Note note) {
-        notes.remove(note);
+    public void removeNote(Grade grade) {
+        grades.remove(grade);
     }
 
     public double getAverage() {
-        if (notes.isEmpty()) return 0.0;
+        if (grades.isEmpty()) return 0.0;
         double sum = 0;
-        for (Note note : notes)
+        for (Grade grade : grades)
         {
-            sum += note.getValue();
+            sum += grade.getValue();
         }
-        return sum / notes.size();
+        return sum / grades.size();
     }
 }

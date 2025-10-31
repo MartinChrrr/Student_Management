@@ -1,44 +1,58 @@
 package DAO;
 
-import Models.Note;
-import Models.Student;
+import Models.Grade;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class NotesDAO {
+public class GradeDAO {
     private static final String FILE_PATH = "Students/src/main/ressources/data/notes.txt";
 
-    List<Note> notes = new ArrayList<>();
+    List<Grade> grades = new ArrayList<>();
     private static int nextId =1;
 
-    public Note getById(int id) {
-        Note note = new Note();
-        for(Note n: notes) {
+    public Grade getById(int id) {
+        Grade grade = new Grade();
+        for(Grade n: grades) {
             if(n.getId() == id) {
-                note = n;
+                grade = n;
             }
         }
-        return note;
+        return grade;
     }
 
-    public List<Note> getAll() {
-        return notes;
+    public List<Grade> getAll() {
+        return grades;
     }
 
-    public void add(Note note) {
-        notes.add(note);
+    public List<Grade> getFromStudent(int id) {
+        List<Grade> response = new ArrayList<>();
+        for(Grade grade : grades) {
+            if(grade.getStudentID() == id) {
+                response.add(grade);
+            }
+        }
+        return response;
+    }
+
+    public void add(Grade grade) {
+        grades.add(grade);
     }
 
     public void remove(int id) {
-        notes.remove(id);
+//        for (Grade grade : grades) {
+//            if (grade.getId() == id) {
+//                grades.remove(grade);
+//            }
+//        }
+        grades.removeIf(g -> g.getId() == id);
     }
     //save data to .txtfile
     public void saveToFile() throws IOException {
         List<String> lines = new ArrayList<>();
-        for (int i = 0; i < notes.size(); i++) {
-            lines.add(notes.get(i).getId() + ";" + notes.get(i).getStudentID() + ";" + notes.get(i).getValue());
+        for (int i = 0; i < grades.size(); i++) {
+            lines.add(grades.get(i).getId() + ";" + grades.get(i).getStudentID() + ";" + grades.get(i).getValue());
         }
 
         DataStorage.writeToFile(FILE_PATH, lines);
@@ -53,14 +67,14 @@ public class NotesDAO {
                 int id = Integer.parseInt(parts[0]);
                 int studentId = Integer.parseInt(parts[1]);
                 double value = Double.parseDouble(parts[2]);
-                notes.add(new Note(id,studentId, value));
+                grades.add(new Grade(id,studentId, value));
                 //debug
                 //System.out.println(notes.get(0));
             }
         }
         nextId = setNextId();
         //debug
-        System.out.println(nextId);
+        //System.out.println(nextId);
     }
     //generation id part
     public int generateId() {
@@ -73,7 +87,7 @@ public class NotesDAO {
     }
     private int setNextId() {
         List<Integer> ids = new ArrayList<Integer>();
-        for(Note n : notes) {
+        for(Grade n : grades) {
             ids.add(n.getId());
         }
 
