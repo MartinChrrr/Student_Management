@@ -55,7 +55,7 @@ public class NotesDAO {
                 int value = Integer.parseInt(parts[2]);
                 notes.add(new Note(id,studentId, value));
                 //debug
-                System.out.println(notes.get(0));
+                //System.out.println(notes.get(0));
             }
         }
     }
