@@ -1,8 +1,10 @@
 package Controller;
 
 
+import DAO.NotesDAO;
 import DAO.StudentDAO;
 import DAO.UserDAO;
+import Models.Note;
 import Models.Student;
 import Models.User;
 import View.LoginFrame;
@@ -20,8 +22,9 @@ public class MainController {
 
     private StudentDAO studentDAO;
     private UserDAO userDAO;
+    private NotesDAO notesDAO;
     private StudentController studentController;
-
+    private NoteController noteController;
     private LoginFrame loginFrame;
     private MainFrame mainFrame;
 
@@ -31,11 +34,14 @@ public class MainController {
         // Dao Creation
         studentDAO = new StudentDAO();
         userDAO = new UserDAO();
+        notesDAO = new NotesDAO();
         studentController = new StudentController(studentDAO);
+        noteController = new NoteController(notesDAO);
 
         try {
             studentDAO.loadFromFile();
             userDAO.loadFromFile();
+            notesDAO.loadFromFile();
         } catch (IOException e) {
             JOptionPane.showMessageDialog(null, "Erreur lors du chargement des données : " + e.getMessage());
         }
@@ -115,6 +121,12 @@ public class MainController {
 
     private void refreshStudentList() {
         List<Student> students = studentController.getAllStudents();
+        List<Note> notes = noteController.getAllNotes();
+        for(int i = 0; i < notes.size(); i++) {
+            int studentID =notes.get(i).getStudentID();
+            Student student = studentDAO.getById(studentID);
+            student.addNote(notes.get(i));
+        }
         //System.out.println(students.get(0).getEmail());
 
 

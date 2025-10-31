@@ -13,6 +13,27 @@ public class NotesDAO {
     List<Note> notes = new ArrayList<>();
     private int nextId =1;
 
+    public Note getById(int id) {
+        Note note = new Note();
+        for(Note n: notes) {
+            if(n.getId() == id) {
+                note = n;
+            }
+        }
+        return note;
+    }
+
+    public List<Note> getAll() {
+        return notes;
+    }
+
+    public void add(Note note) {
+        notes.add(note);
+    }
+
+    public void remove(int id) {
+        notes.remove(id);
+    }
     //data to .txtfile
     public void saveToFile() throws IOException {
         List<String> lines = new ArrayList<>();
@@ -28,13 +49,13 @@ public class NotesDAO {
     public void loadFromFile() throws IOException {
         for (String line : DataStorage.readFromFile(FILE_PATH)) {
             String[] parts = line.split(";");
-            if (parts.length >= 2){
+            if (parts.length >= 3){
                 int id = Integer.parseInt(parts[0]);
                 int studentId = Integer.parseInt(parts[1]);
                 int value = Integer.parseInt(parts[2]);
                 notes.add(new Note(id,studentId, value));
-
-
+                //debug
+                System.out.println(notes.get(0));
             }
         }
     }
@@ -47,4 +68,6 @@ public class NotesDAO {
         return nextId;
 
     }
+
+
 }
