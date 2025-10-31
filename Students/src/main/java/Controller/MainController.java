@@ -12,12 +12,10 @@ import javax.swing.*;
 import java.io.IOException;
 import java.util.List;
 
-/**
- * Le MainController est le point central de l'application :
- * - il gère la navigation entre les écrans,
- * - il initialise les contrôleurs secondaires,
- * - il réagit aux actions principales de l'utilisateur.
- */
+
+    //navigation
+    //create other controller
+    //event button
 public class MainController {
 
     private StudentDAO studentDAO;
@@ -30,7 +28,7 @@ public class MainController {
     private User currentUser;
 
     public MainController() {
-        // Initialisation des DAO
+        // Dao Creation
         studentDAO = new StudentDAO();
         userDAO = new UserDAO();
         studentController = new StudentController(studentDAO);
@@ -45,9 +43,7 @@ public class MainController {
         showLoginScreen();
     }
 
-    /**
-     * Affiche la fenêtre de connexion.
-     */
+    //Display login
     private void showLoginScreen() {
         loginFrame = new LoginFrame();
         loginFrame.setVisible(true);
@@ -63,7 +59,8 @@ public class MainController {
 
 
             User user = userDAO.getUser(username);
-            System.out.println(user);
+            //debug
+//            System.out.println(user);
             if (user != null && user.getPassword().equals(password)) {
                 currentUser = user;
                 loginFrame.dispose();
@@ -74,16 +71,14 @@ public class MainController {
         });
     }
 
-    /**
-     * Affiche la fenêtre principale (liste des étudiants, etc.).
-     */
+    //main
     private void showMainScreen() {
         mainFrame = new MainFrame(currentUser.isAdmin());
 
-        // Charger les étudiants existants
+        // load StudentList
         refreshStudentList();
 
-        // Bouton d’ajout d’un étudiant
+        // Add Button
         mainFrame.onAddStudent(e -> {
             String name = mainFrame.getStudentNameInput();
             String email = mainFrame.getStudentEmailInput();
@@ -93,7 +88,7 @@ public class MainController {
                 return;
             }
 
-            // Génération d’un ID automatique
+            // Student id generation
             int newId = studentController.getNewId();
             Student newStudent = new Student(newId, name, email);
             studentController.addStudent(newStudent);
@@ -101,7 +96,7 @@ public class MainController {
             refreshStudentList();
         });
 
-        // Bouton de suppression d’un étudiant
+        // Delete button
         mainFrame.onDeleteStudent(e -> {
             int selectedId = mainFrame.getSelectedStudentId();
             if (selectedId == -1) {
@@ -117,9 +112,7 @@ public class MainController {
         mainFrame.setVisible(true);
     }
 
-    /**
-     * Rafraîchit la liste des étudiants affichée dans la vue.
-     */
+
     private void refreshStudentList() {
         List<Student> students = studentController.getAllStudents();
         //System.out.println(students.get(0).getEmail());
@@ -128,9 +121,7 @@ public class MainController {
         mainFrame.updateStudentTable(students);
     }
 
-    /**
-     * Sauvegarde les données des étudiants dans le fichier.
-     */
+    //save Student in txt file
     private void saveStudents() {
         try {
             studentDAO.saveToFile();

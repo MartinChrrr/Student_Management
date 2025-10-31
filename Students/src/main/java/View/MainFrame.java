@@ -23,7 +23,7 @@ public class MainFrame extends JFrame {
 
         setLayout(new BorderLayout());
 
-        // Table des étudiants
+        // Students table
         tableModel = new DefaultTableModel(new Object[]{"ID", "Nom", "Email", "Moyenne"}, 0);
         studentTable = new JTable(tableModel);
         add(new JScrollPane(studentTable), BorderLayout.CENTER);
@@ -53,8 +53,8 @@ public class MainFrame extends JFrame {
     public void updateStudentTable(List<Student> students) {
         tableModel.setRowCount(0);
         for (Student s : students) {
-            //tableModel.addRow(new Object[]{s.getId(), s.getName(), s.getEmail(), s.getAverage()});
-            tableModel.addRow(new Object[]{s.getId(), s.getName(), s.getEmail(), 0});
+            tableModel.addRow(new Object[]{s.getId(), s.getName(), s.getEmail(), s.getAverage()});
+            //tableModel.addRow(new Object[]{s.getId(), s.getName(), s.getEmail(), 0});
 
         }
     }
