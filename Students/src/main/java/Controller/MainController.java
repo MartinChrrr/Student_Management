@@ -113,7 +113,7 @@ public class MainController {
 
             //save in .txt
             studentController.removeStudent(selectedId);
-            gradeController.removeGradeFromStudent(selectedId);
+            gradeController.removeGradeFromStudent(selectedId); //remove grades from this student
             saveStudents();
             saveNotes();
             refreshStudentList();
@@ -136,6 +136,11 @@ public class MainController {
             //check if all fields are fulfilled and note is double
             if (note.isBlank() || !isDouble(note)) {
                 JOptionPane.showMessageDialog(mainFrame, "Veuillez mettre une note.");
+                return;
+            }
+            //check if note is between 0 and 20
+            if (Double.parseDouble(note) > 20 || Double.parseDouble(note) < 0 ) {
+                JOptionPane.showMessageDialog(mainFrame, "Veuillez mettre une note valide.");
                 return;
             }
             int newId = gradeController.getNewId();
