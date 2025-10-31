@@ -34,7 +34,7 @@ public class NotesDAO {
     public void remove(int id) {
         notes.remove(id);
     }
-    //data to .txtfile
+    //save data to .txtfile
     public void saveToFile() throws IOException {
         List<String> lines = new ArrayList<>();
         for (int i = 0; i < notes.size(); i++) {
@@ -45,7 +45,7 @@ public class NotesDAO {
     }
 
 
-    //data from .txtfile
+    //load data from .txtfile
     public void loadFromFile() throws IOException {
         for (String line : DataStorage.readFromFile(FILE_PATH)) {
             String[] parts = line.split(";");
@@ -58,6 +58,9 @@ public class NotesDAO {
                 //System.out.println(notes.get(0));
             }
         }
+        nextId = setNextId();
+        //debug
+        System.out.println(nextId);
     }
     //generation id part
     public int generateId() {
@@ -68,6 +71,16 @@ public class NotesDAO {
         return nextId;
 
     }
+    private int setNextId() {
+        List<Integer> ids = new ArrayList<Integer>();
+        for(Note n : notes) {
+            ids.add(n.getId());
+        }
 
+        return ids.stream()
+                .mapToInt(v -> v)
+                .max().
+                orElse(0);
+    }
 
 }

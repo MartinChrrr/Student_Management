@@ -1,5 +1,6 @@
 package DAO;
 
+import Models.Note;
 import Models.Student;
 
 import java.io.*;
@@ -51,6 +52,9 @@ public class StudentDAO {
 
             }
         }
+        nextId = setNextId();
+        //debug
+        System.out.println("students next id:  " + nextId);
     }
 
     // //generation id part
@@ -60,5 +64,17 @@ public class StudentDAO {
 
     public int getNextId() {
         return nextId;
+    }
+
+    private int setNextId() {
+        List<Integer> ids = new ArrayList<Integer>();
+        for(Student s : students.values()) {
+            ids.add(s.getId());
+        }
+
+        return ids.stream()
+                .mapToInt(v -> v)
+                .max()
+                .orElse(0);
     }
 }
