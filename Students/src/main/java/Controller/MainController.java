@@ -123,11 +123,19 @@ public class MainController {
                 return;
             }
             String note = mainFrame.getNoteInput();
-            if (note.isBlank() || isDouble(note)) {
+            //debug
+            //System.out.println(note);
+            //System.out.println(isDouble(note));
+
+            if (note.isBlank() || !isDouble(note)) {
                 JOptionPane.showMessageDialog(mainFrame, "Veuillez mettre une note.");
                 return;
             }
-
+            int newId = noteController.getNewId();
+            Note newNote = new Note(newId, selectedId, Double.parseDouble(note));
+            noteController.addNote(newNote);
+            saveNotes();
+            refreshStudentList();
         });
 
         mainFrame.setVisible(true);
@@ -157,8 +165,17 @@ public class MainController {
             JOptionPane.showMessageDialog(mainFrame, "Erreur lors de la sauvegarde : " + e.getMessage());
         }
     }
+
+    private void saveNotes() {
+        try {
+            notesDAO.saveToFile();
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(mainFrame, "Erreur lors de la sauvegarde : " + e.getMessage());
+        }
+    }
+
     //check if string is int (for note input)
-    public boolean isDouble(String s) {
+    public static boolean isDouble(String s) {
         try {
             Double.parseDouble(s);
         } catch(NumberFormatException e) {
@@ -166,7 +183,7 @@ public class MainController {
         } catch(NullPointerException e) {
             return false;
         }
-            // only got here if we didn't return false
+        // only got here if we didn't return false
         return true;
-        }
+    }
 }

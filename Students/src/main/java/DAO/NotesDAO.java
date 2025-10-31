@@ -52,7 +52,7 @@ public class NotesDAO {
             if (parts.length >= 3){
                 int id = Integer.parseInt(parts[0]);
                 int studentId = Integer.parseInt(parts[1]);
-                int value = Integer.parseInt(parts[2]);
+                double value = Double.parseDouble(parts[2]);
                 notes.add(new Note(id,studentId, value));
                 //debug
                 //System.out.println(notes.get(0));
