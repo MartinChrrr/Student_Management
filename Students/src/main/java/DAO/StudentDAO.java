@@ -7,7 +7,7 @@ import java.util.*;
 
 public class StudentDAO {
     private static final String FILE_PATH = "Students/src/main/ressources/data/students.txt";
-    private int nextId =1;
+    private static int nextId =1;
     private Map<Integer, Student> students = new HashMap<>();
 
     public List<Student> getAll() {
@@ -60,6 +60,5 @@ public class StudentDAO {
 
     public int getNextId() {
         return nextId;
-
     }
 }

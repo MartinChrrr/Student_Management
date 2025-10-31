@@ -11,7 +11,7 @@ public class NotesDAO {
     private static final String FILE_PATH = "Students/src/main/ressources/data/notes.txt";
 
     List<Note> notes = new ArrayList<>();
-    private int nextId =1;
+    private static int nextId =1;
 
     public Note getById(int id) {
         Note note = new Note();

@@ -86,9 +86,9 @@ public class MainController {
 
         // Add Button
         mainFrame.onAddStudent(e -> {
+            //check if all fields are fulfilled
             String name = mainFrame.getStudentNameInput();
             String email = mainFrame.getStudentEmailInput();
-
             if (name.isBlank() || email.isBlank()) {
                 JOptionPane.showMessageDialog(mainFrame, "Veuillez remplir tous les champs !");
                 return;
@@ -104,19 +104,23 @@ public class MainController {
 
         // Delete button
         mainFrame.onDeleteStudent(e -> {
+            //check if row selected
             int selectedId = mainFrame.getSelectedStudentId();
             if (selectedId == -1) {
                 JOptionPane.showMessageDialog(mainFrame, "Veuillez sélectionner un étudiant à supprimer.");
                 return;
             }
 
-
+            //save in .txt
             studentController.removeStudent(selectedId);
             saveStudents();
             refreshStudentList();
         });
 
+
+
         mainFrame.onAddNote(e -> {
+            //check if row selected
             int selectedId = mainFrame.getSelectedStudentId();
             if (selectedId == -1) {
                 JOptionPane.showMessageDialog(mainFrame, "Veuillez sélectionner un étudiant pour ajouter une note.");
@@ -127,6 +131,7 @@ public class MainController {
             //System.out.println(note);
             //System.out.println(isDouble(note));
 
+            //check if all fields are fulfilled and note is double
             if (note.isBlank() || !isDouble(note)) {
                 JOptionPane.showMessageDialog(mainFrame, "Veuillez mettre une note.");
                 return;
