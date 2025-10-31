@@ -11,7 +11,8 @@ public class StudentDAO {
     private Map<Integer, Student> students = new HashMap<>();
 
     public List<Student> getAll() {
-        System.out.println(students.get(1).getEmail());
+        //debug
+        //System.out.println(students.get(1).getEmail());
 
         return new ArrayList<>(students.values());
     }

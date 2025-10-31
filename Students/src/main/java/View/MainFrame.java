@@ -10,14 +10,15 @@ import java.util.List;
 public class MainFrame extends JFrame {
 
     private JTable studentTable;
-    private JButton addButton, deleteButton;
-    private JTextField nameField, emailField;
+    private JButton addButton, deleteButton, addNoteButton;
+
+    private JTextField nameField, emailField, noteField;
 
     private DefaultTableModel tableModel;
 
     public MainFrame(boolean isAdmin) {
         setTitle("Gestion des Étudiants");
-        setSize(600, 400);
+        setSize(800, 600);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -34,6 +35,9 @@ public class MainFrame extends JFrame {
         emailField = new JTextField(10);
         addButton = new JButton("Ajouter");
         deleteButton = new JButton("Supprimer");
+        emailField = new JTextField(10);
+        noteField = new JTextField(5);
+        addNoteButton = new JButton("Ajouter une note");
 
         formPanel.add(new JLabel("Nom:"));
         formPanel.add(nameField);
@@ -41,10 +45,13 @@ public class MainFrame extends JFrame {
         formPanel.add(emailField);
         formPanel.add(addButton);
         formPanel.add(deleteButton);
+        formPanel.add(noteField);
+        formPanel.add(addNoteButton);
 
         if (!isAdmin) {
             addButton.setEnabled(false);
             deleteButton.setEnabled(false);
+            addNoteButton.setEnabled(false);
         }
 
         add(formPanel, BorderLayout.SOUTH);
@@ -61,6 +68,7 @@ public class MainFrame extends JFrame {
 
     public String getStudentNameInput() { return nameField.getText(); }
     public String getStudentEmailInput() { return emailField.getText(); }
+    public String getNoteInput() { return noteField.getText();}
 
     public int getSelectedStudentId() {
         int row = studentTable.getSelectedRow();
@@ -70,6 +78,7 @@ public class MainFrame extends JFrame {
 
     public void onAddStudent(ActionListener listener) { addButton.addActionListener(listener); }
     public void onDeleteStudent(ActionListener listener) { deleteButton.addActionListener(listener); }
+    public void onAddNote(ActionListener listener) { addNoteButton.addActionListener(listener); }
 }
 
 

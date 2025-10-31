@@ -110,9 +110,24 @@ public class MainController {
                 return;
             }
 
+
             studentController.removeStudent(selectedId);
             saveStudents();
             refreshStudentList();
+        });
+
+        mainFrame.onAddNote(e -> {
+            int selectedId = mainFrame.getSelectedStudentId();
+            if (selectedId == -1) {
+                JOptionPane.showMessageDialog(mainFrame, "Veuillez sélectionner un étudiant pour ajouter une note.");
+                return;
+            }
+            String note = mainFrame.getNoteInput();
+            if (note.isBlank() || isDouble(note)) {
+                JOptionPane.showMessageDialog(mainFrame, "Veuillez mettre une note.");
+                return;
+            }
+
         });
 
         mainFrame.setVisible(true);
@@ -127,6 +142,7 @@ public class MainController {
             Student student = studentDAO.getById(studentID);
             student.addNote(notes.get(i));
         }
+        //debug
         //System.out.println(students.get(0).getEmail());
 
 
@@ -141,4 +157,16 @@ public class MainController {
             JOptionPane.showMessageDialog(mainFrame, "Erreur lors de la sauvegarde : " + e.getMessage());
         }
     }
+    //check if string is int (for note input)
+    public boolean isDouble(String s) {
+        try {
+            Double.parseDouble(s);
+        } catch(NumberFormatException e) {
+            return false;
+        } catch(NullPointerException e) {
+            return false;
+        }
+            // only got here if we didn't return false
+        return true;
+        }
 }
